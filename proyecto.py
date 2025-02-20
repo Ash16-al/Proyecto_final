@@ -19,3 +19,18 @@ def mostrar_cartelera():
     print("🎬 Cartelera de Cine 🎬")
     for i, pelicula in enumerate(cartelera, 1):
         print(f"{i}. {pelicula}")
+
+# -----------------------------------------------------------------------------------------------------------------
+
+# Función para comprar boletos
+def comprar_boletos():
+    mostrar_cartelera()
+    eleccion = int(input("Elige el número de la película que deseas ver: "))
+    
+    if 1 <= eleccion <= len(cartelera):
+        pelicula_seleccionada = cartelera[eleccion - 1]
+        print(f"\nHas seleccionado la película: {pelicula_seleccionada}")
+        return pelicula_seleccionada
+    else:
+        print("Opción inválida. Intenta de nuevo.")
+        return comprar_boletos()
