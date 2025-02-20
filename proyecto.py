@@ -87,3 +87,14 @@ def compra_realizada(pelicula, cantidad, total):
     print(f"Cantidad de boletos: {cantidad}")
     print(f"Total de la compra: ${total:.2f}")
     print("Gracias por tu compra. ¡Disfruta la película!")
+
+#--------------------------------------------------------------------------------------------------------------------
+
+# Ejecutar todas las funciones 
+def simulador_cine():
+    pelicula = comprar_boletos()
+    cantidad, total = pago_boletos()
+    obtener_datos_cliente()
+    compra_realizada(pelicula, cantidad, total)
+
+simulador_cine()
