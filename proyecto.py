@@ -34,3 +34,23 @@ def comprar_boletos():
     else:
         print("Opción inválida. Intenta de nuevo.")
         return comprar_boletos()
+
+#-------------------------------------------------------------------------------------------------------------------
+
+# Función para realizar el pago
+def pago_boletos():
+    precio_boletos = 5.0
+    cantidad_boletos = int(input("¿Cuántos boletos deseas comprar? "))
+    total = cantidad_boletos * precio_boletos
+    print(f"\nEl total de la compra es: ${total:.2f}")
+
+    # Confirmación para continuar o cancelar
+    while True:
+        decision = input("Si deseas cancelar la compra, escribe 'cancelar'. Si deseas continuar, escribe 'seguir': ").lower()
+        if decision == "cancelar":
+            print("Compra cancelada. Volviendo al menú principal.")
+            exit()  # Finaliza el programa
+        elif decision == "seguir":
+            return cantidad_boletos, total
+        else:
+            print("Opción inválida. Intenta de nuevo.")
