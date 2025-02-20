@@ -77,3 +77,13 @@ def obtener_datos_cliente():
     print(f"Nombre: {nombre}")
     print(f"Teléfono: {telefono}")
     print(f"Correo electrónico: {correo}")
+
+#--------------------------------------------------------------------------------------------------------------------
+
+# Confirmar la compra
+def compra_realizada(pelicula, cantidad, total):
+    print("\n¡Compra realizada con éxito!")
+    print(f"Película seleccionada: {pelicula}")
+    print(f"Cantidad de boletos: {cantidad}")
+    print(f"Total de la compra: ${total:.2f}")
+    print("Gracias por tu compra. ¡Disfruta la película!")
