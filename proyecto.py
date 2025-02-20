@@ -54,3 +54,26 @@ def pago_boletos():
             return cantidad_boletos, total
         else:
             print("Opción inválida. Intenta de nuevo.")
+
+#--------------------------------------------------------------------------------------------------------------------
+
+# Datos personales
+def obtener_datos_cliente():
+    print("\nSe pedirán algunos datos personales para proseguir con la compra.")
+    nombre = input("Ingresa tu nombre completo: ")
+
+    telefono = input("Ingresa tu número de teléfono: ")
+    while len(telefono) > 9 or not telefono.isdigit():
+        print("El número de teléfono no es válido. Debe tener máximo 8 dígitos y solo números.")
+        telefono = input("Ingresa tu número de teléfono: ")
+    
+    # Validar correo electrónico 
+    correo = input("Ingresa tu correo electrónico: ")
+    while "@" not in correo or "." not in correo:
+        print("El correo electrónico no es válido. Intenta de nuevo.")
+        correo = input("Ingresa tu correo electrónico: ")
+
+    print("\nDatos del cliente ingresados:")
+    print(f"Nombre: {nombre}")
+    print(f"Teléfono: {telefono}")
+    print(f"Correo electrónico: {correo}")
