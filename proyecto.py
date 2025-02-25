@@ -51,7 +51,8 @@ def pago_boletos():
         decision = input("Si deseas cancelar la compra, escribe 'cancelar'. Si deseas continuar, escribe 'seguir': ").lower()
         if decision == "cancelar":
             print("Compra cancelada. Volviendo al menú principal.")
-            exit()  # Finaliza el programa
+            menu()  # Volver al menú 
+            return None, None
         elif decision == "seguir":
             return cantidad_boletos, total
         else:
@@ -59,9 +60,33 @@ def pago_boletos():
 
 #--------------------------------------------------------------------------------------------------------------------
 
+# Lista de asientos disponibles
+asientos_disponibles = {
+    "A": ["1", "2", "3", "4", "5"],
+    "B": ["1", "2", "3", "4", "5"],
+    "C": ["1", "2", "3", "4", "5"],
+    "D": ["1", "2", "3", "4", "5"]
+}
+
+# Función para seleccionar asientos
 def seleccionar_asientos():
-    asientos = input("Elige tus asientos (ejemplo: A1, B2, C3): ")
-    return asientos
+    print("\nAsientos disponibles:")
+    for fila, asientos in asientos_disponibles.items():
+        print(f"{fila}: {', '.join(asientos)}")
+    
+    asientos_seleccionados = input("\nElige tus asientos (ejemplo: A1, B2): ").upper()
+    asientos_list = [asiento.strip() for asiento in asientos_seleccionados.split(",")]
+    
+    # Verificar disponibilidad y marcar como ocupado
+    for asiento in asientos_list:
+        fila, numero = asiento[0], asiento[1:]
+        if fila in asientos_disponibles and numero in asientos_disponibles[fila]:
+            asientos_disponibles[fila].remove(numero)
+        else:
+            print(f"Asiento {asiento} no disponible o inválido.")
+            return seleccionar_asientos()  # Intentar de nuevo
+
+    return asientos_seleccionados
 
 #--------------------------------------------------------------------------------------------------------------------
 
@@ -88,22 +113,47 @@ def obtener_datos_cliente():
 
 #--------------------------------------------------------------------------------------------------------------------
 
-# Confirmar la compra
-def compra_realizada(pelicula, cantidad, total):
-    print("\n¡Compra realizada con éxito!")
-    print(f"Película seleccionada: {pelicula}")
-    print(f"Cantidad de boletos: {cantidad}")
-    print(f"Total de la compra: ${total:.2f}")
-    print("Gracias por tu compra. ¡Disfruta la película!")
+#Función para confirmar la compra
+
+def compra_realizada(pelicula, cantidad, total, asientos):
+    compra = {
+        "pelicula": pelicula,
+        "cantidad": cantidad,
+        "total": total,
+        "asientos": asientos
+    }
+    historial_compras.append(compra)
+
+    print("\n✅ ¡Compra realizada con éxito! 🎬")
+    print(f"Película: {pelicula}")
+    print(f"Boletos: {cantidad}")
+    print(f"Asientos: {asientos}")
+    print(f"Total: ${total:.2f}")
+    print("Gracias por tu compra. ¡Disfruta la función! 🍿")
+
+# Función para ver compras realizadas
+def ver_compras_realizadas():
+    if not historial_compras:
+        print("\n📭 No hay compras registradas.")
+    else:
+        print("\n📜 Historial de compras:")
+        for i, compra in enumerate(historial_compras, 1):
+            print(f"{i}. {compra['pelicula']} - {compra['cantidad']} boletos - Asientos: {compra['asientos']} - Total: ${compra['total']:.2f}")
+
 
 #--------------------------------------------------------------------------------------------------------------------
 
-# Ejecutar todas las funciones 
+
 def simulador_cine():
-    pelicula = comprar_boletos()
-    cantidad, total = pago_boletos()
-    obtener_datos_cliente()
-    compra_realizada(pelicula, cantidad, total)
+    pelicula = comprar_boletos()  # Primero, seleccionar película
+    cantidad, total = pago_boletos()  # Luego, hacer el pago
+    asientos = seleccionar_asientos()  # Después, seleccionar los asientos
+    obtener_datos_cliente()  # Solicitar los datos del cliente
+    compra_realizada(pelicula, cantidad, total, asientos)  # Confirmar la compra
+
+#----------------------------------------------------------------------------------------------------------------------
+
+#Menu interactivo para que pueda escoger el usuario
 
 def menu():
     while True:
