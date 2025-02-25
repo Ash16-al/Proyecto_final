@@ -14,6 +14,8 @@
 
 cartelera = ["Spider-Man: Far from home", "Toy story 4", "Frozen 2", "Godzilla 2: King of the monsters"]
 
+historial_compras = []
+
 # Mostrar la cartelera de películas disponibles
 def mostrar_cartelera():
     print("🎬 Cartelera de Cine 🎬")
@@ -57,6 +59,12 @@ def pago_boletos():
 
 #--------------------------------------------------------------------------------------------------------------------
 
+def seleccionar_asientos():
+    asientos = input("Elige tus asientos (ejemplo: A1, B2, C3): ")
+    return asientos
+
+#--------------------------------------------------------------------------------------------------------------------
+
 # Datos personales
 def obtener_datos_cliente():
     print("\nSe pedirán algunos datos personales para proseguir con la compra.")
@@ -97,4 +105,27 @@ def simulador_cine():
     obtener_datos_cliente()
     compra_realizada(pelicula, cantidad, total)
 
-simulador_cine()
+def menu():
+    while True:
+        print("\n🎟️ Bienvenido al Simulador de Ventas de Boletos 🎟️")
+        print("1. Ver cartelera")
+        print("2. Comprar boletos")
+        print("3. Ver compras realizadas")
+        print("4. Salir")
+        
+        opcion = input("Elige una opción: ")
+
+        if opcion == "1":
+            mostrar_cartelera()
+        elif opcion == "2":
+            simulador_cine()
+        elif opcion == "3":
+            ver_compras_realizadas()
+        elif opcion == "4":
+            print("Gracias por visitarnos. ¡Hasta pronto!")
+            break
+        else:
+            print("Opción inválida. Intenta de nuevo.")
+
+# Llamar al menú en lugar de ejecutar simulador_cine() directamente
+menu()
