@@ -59,38 +59,24 @@ def pago_boletos():
 
 #--------------------------------------------------------------------------------------------------------------------
 
-# Lista de asientos disponibles
-asientos_disponibles = {
-    "A": ["1", "2", "3", "4", "5", "6"],
-    "B": ["1", "2", "3", "4", "5", "6"],
-    "C": ["1", "2", "3", "4", "5", "6"],
-    "D": ["1", "2", "3", "4", "5", "6"],
-    "E": ["1", "2", "3", "4", "5", "6"],
-    "F": ["1", "2", "3", "4", "5", "6"],
-}
+asientos_disponibles = {fila: [str(i) for i in range(1, 7)] for fila in "ABCDE"}
 
-# Función para seleccionar asientos
 def seleccionar_asientos(cantidad):
     print("\nAsientos disponibles:")
     for fila, asientos in asientos_disponibles.items():
         print(f"{fila}: {', '.join(asientos)}")
-    
+
     asientos_seleccionados = []
-    
+
     while len(asientos_seleccionados) < cantidad:
         asiento = input(f"Selecciona un asiento ({len(asientos_seleccionados) + 1}/{cantidad}): ").upper().strip()
-        
-        if len(asiento) < 2:
-            print("Formato inválido. Debes escribir algo como 'A1' o 'B3'.")
+
+        if len(asiento) < 2 or asiento[0] not in asientos_disponibles or asiento[1:] not in asientos_disponibles[asiento[0]]:
+            print("Asiento inválido o no disponible. Intenta de nuevo.")
             continue
 
-        fila, numero = asiento[0], asiento[1:]
-
-        if fila in asientos_disponibles and numero in asientos_disponibles[fila]:
-            asientos_disponibles[fila].remove(numero)
-            asientos_seleccionados.append(asiento)
-        else:
-            print(f"Asiento {asiento} no disponible o inválido. Intenta de nuevo.")
+        asientos_disponibles[asiento[0]].remove(asiento[1:])
+        asientos_seleccionados.append(asiento)
 
     return asientos_seleccionados
 
@@ -100,11 +86,6 @@ def seleccionar_asientos(cantidad):
 def obtener_datos_cliente():
     print("\nSe pedirán algunos datos personales para proseguir con la compra.")
     nombre = input("Ingresa tu nombre completo: ")
-
-    telefono = input("Ingresa tu número de teléfono: ")
-    while len(telefono) > 9 or not telefono.isdigit():
-        print("El número de teléfono no es válido. Debe tener máximo 8 dígitos y solo números.")
-        telefono = input("Ingresa tu número de teléfono: ")
     
     # Validar correo electrónico 
     correo = input("Ingresa tu correo electrónico: ")
@@ -114,7 +95,6 @@ def obtener_datos_cliente():
 
     print("\nDatos del cliente ingresados:")
     print(f"Nombre: {nombre}")
-    print(f"Teléfono: {telefono}")
     print(f"Correo electrónico: {correo}")
 
 #--------------------------------------------------------------------------------------------------------------------
@@ -137,14 +117,13 @@ def compra_realizada(pelicula, cantidad, total, asientos):
     print(f"Total: ${total:.2f}")
     print("Gracias por tu compra. ¡Disfruta la función! 🍿")
 
-# Función para ver compras realizadas
 def ver_compras_realizadas():
-    if not historial_compras:
-        print("\n📭 No hay compras registradas.")
-    else:
+    if historial_compras:
         print("\n📜 Historial de compras:")
-        for i, compra in enumerate(historial_compras, 1):
-            print(f"{i}. {compra['pelicula']} - {compra['cantidad']} boletos - Asientos: {', '.join(compra['asientos'])} - Total: ${compra['total']:.2f}")
+        for i, c in enumerate(historial_compras, 1):
+            print(f"{i}. {c['pelicula']} - {c['cantidad']} boletos - Asientos: {', '.join(c['asientos'])} - Total: ${c['total']:.2f}")
+    else:
+        print("\n📭 No hay compras registradas.")
 
 #--------------------------------------------------------------------------------------------------------------------
 
